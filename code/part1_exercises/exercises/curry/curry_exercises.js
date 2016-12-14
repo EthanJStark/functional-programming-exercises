@@ -37,16 +37,37 @@ var words = curry( split2 )
 //==============
 // Use map to make a new words fn that works on an array of strings.
 
-var sentences = undefined;
+// OUR FIRST ATTEMPT
+var sentences = array => {
+  return _.map( words, array ) // _.map( words, array )(array) -Melody
+}
+
+// THEIR ANSWER
+// var sentences = _.map(words);
+
+function addB (b) {
+  return function addCtoB (c) {
+    return b + c
+  }
+}
+
+var addOne = addB(1) // -> function to return 1 + (its arg)
 
 
 // Exercise 2
 //==============
 // Refactor to remove all arguments by partially applying the functions
 
-var filterQs = function(xs) {
-  return filter(function(x){ return match(/q/i, x);  }, xs);
-};
+// ORIGINAL
+// var filterQs = function(xs) {
+//   return filter(function(x){ return match(/q/i, x);  }, xs);
+// };
+
+// OUR FIRST ANSWER:
+var filterQs = filter( x => match(/q/i, x))
+
+// THEIR ANSWER:
+// var filterQs = _.filter(match(/q/i));
 
 
 // Exercise 3
@@ -57,11 +78,13 @@ var filterQs = function(xs) {
 var _keepHighest = function(x,y){ return x >= y ? x : y; };
 
 // REFACTOR THIS ONE:
-var max = function(xs) {
-  return reduce(function(acc, x){
-    return _keepHighest(acc, x);
-  }, -Infinity, xs);
-};
+// var max = function(xs) {
+//   return reduce(function(acc, x){
+//     return _keepHighest(acc, x);
+//   }, -Infinity, xs);
+// };
+
+var max = _.reduce(_keepHighest(xs), -Infinity) // WIP!
 
 
 // Bonus 1:
