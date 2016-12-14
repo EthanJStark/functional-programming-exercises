@@ -96,12 +96,19 @@ var availablePrices = _.compose( join( ', '), accounting.formatMoney, map(_.prop
 //   return fastest.name + ' is the fastest';
 // };
 
-var fastest = _.prop( 'name' ) + ' is the fastest'
-var fastestCar = _.compose(fastest, _.last, _.sortBy(map(_.prop('car_horsepower'))))
+//OUR ANSWER (not quite correct)
+var fastestCar = _.compose( _.concat('The fastest car is '), _.prop( 'name' ), _.last,  _.sortBy(_.prop('horsepower')))
 
-var sorting = cars => _.sortBy( function(car){ return car.horsepower }, cars )
-var test = sorting(CARS)
-console.log('test',test)
+//THEIR ANSWER
+// var append = _.flip(_.concat);
+// var fastestCar = _.compose(append(' is the fastest'),
+//                            _.prop('name'),
+//                            _.last,
+//                            _.sortBy(_.prop('horsepower')));
+
+// var sorting = cars => _.sortBy( function(car){ return car.horsepower }, cars )
+// var test = sorting(CARS)
+// console.log('test',test)
 
 module.exports = { CARS: CARS,
                    isLastInStock: isLastInStock,
