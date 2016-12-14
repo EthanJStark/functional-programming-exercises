@@ -63,7 +63,7 @@ var max = function(xs) {
   }, -Infinity, xs);
 };
 
-  
+
 // Bonus 1:
 // ============
 // wrap array's slice to be functional and curried.
