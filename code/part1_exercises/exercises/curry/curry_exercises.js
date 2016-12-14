@@ -6,9 +6,32 @@ var _ = require('ramda');
 //==============
 // Refactor to remove all arguments by partially applying the function
 
-var words = function(str) {
-  return split(' ', str);
-};
+// Initial:
+// var words = function(str) {
+//   return split(' ', str);
+// };
+
+// Our first answer
+// var split2 = function ( separator ) {
+//   return function ( string ) {
+//     return split( separator, string )
+//   }
+// }
+// var words = split2(' ')
+
+// Their answer:
+// var words = _.split(' ');
+
+// Our 2nd attempt:
+
+var curry = _.curry
+
+var split2 = string => {
+  return split( ' ', string )
+}
+
+var words = curry( split2 )
+
 
 // Exercise 1a
 //==============
