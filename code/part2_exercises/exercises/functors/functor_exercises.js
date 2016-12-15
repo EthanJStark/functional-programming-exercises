@@ -6,17 +6,21 @@ var _ = require('ramda');
 // ==========
 // Use _.add(x,y) and _.map(f,x) to make a function that increments a value inside a functor
 
-var ex1 = x => {
-  this.__value = x
-}
+// OUR ANSWER, IN WHICH WE ENDED UP RECREATING TEST CODE, BUT ULTIMATELY DID NOT GET THE RIGHT ANSWER
+// function ex1( x ) {
+//   this.__value = x
+// }
+//
+// ex1.of = x => { return new ex1(x) }
+//
+// ex1.prototype.map = f => {
+//   return ex1.of( f(this.__value))
+// }
+//
+// var test = ex1.of(5)._.map( _.add(1))
 
-ex1.of = x => { return new ex1(x) }
-
-ex1.prototype.map = f => {
-  return ex1.of( f(this.__value))
-}
-
-//End of day Wednesday: Impliment increment function
+//THEIR ANSWER
+ var ex1 = _.map( _.add(1) )
 
 
 
@@ -25,30 +29,41 @@ ex1.prototype.map = f => {
 // Use _.head to get the first element of the list
 var xs = Identity.of(['do', 'ray', 'me', 'fa', 'so', 'la', 'ti', 'do']);
 
-var ex2 = undefined;
+var ex2 = _.map( _.head )
 
 
 
 // Exercise 3
 // ==========
 // Use safeProp and _.head to find the first initial of the user
-var safeProp = _.curry(function (x, o) { return Maybe.of(o[x]); });
+var safeProp = _.curry(function (x, o) {
+  return Maybe.of(o[x]); });
 
 var user = { id: 2, name: "Albert" };
 
-var ex3 = undefined;
-
+//OUR ANSWER AND THEIR ANSWER
+var ex3 = _.compose( map( _.head ),  safeProp('name') )
 
 
 // Exercise 4
 // ==========
 // Use Maybe to rewrite ex4 without an if statement
 
-var ex4 = function (n) {
-  if (n) { return parseInt(n); }
-};
+// var ex4 = function (n) {
+//   if (n) { return parseInt(n); }
+// };
 
-var ex4 = undefined;
+//OUR ANSWER
+var ex4 = _.curry( function (n) {
+  return Maybe.of(n).map(parseInt)
+})
+
+//THEIR ANSWER
+// var ex4 = _.compose(_.map(parseInt), Maybe.of);
+
+// var test = ex4(undefined)
+// console.log('test', test.isNothing());
+// console.log(Maybe.of(null))
 
 
 
@@ -65,9 +80,13 @@ var getPost = function (i) {
   });
 };
 
-var ex5 = undefined;
+//OUR ANSWER (didn't need curry)
+var ex5 = _.curry( n => getPost(n).map(result => _.toUpper(result.title)
+))
 
-
+//THEIR ANSWER
+// var upperTitle = _.compose(toUpperCase, _.prop('title'));
+// var ex5 = _.compose(_.map(upperTitle), getPost);
 
 // Exercise 6
 // ==========
@@ -79,7 +98,7 @@ var checkActive = function(user) {
  return user.active ? Right.of(user) : Left.of('Your account is not active')
 };
 
-var ex6 = undefined;
+var ex6 = _.compose( _.map(showWelcome), checkActive )
 
 
 
@@ -88,7 +107,7 @@ var ex6 = undefined;
 // Write a validation function that checks for a length > 3. It should return Right(x) if it is greater than 3 and Left("You need > 3") otherwise
 
 var ex7 = function(x) {
-  return undefined; // <--- write me. (don't be pointfree)
+  return ( x.length > 3) ? Right.of(x) : Left.of("You need > 3"); // <--- write me. (don't be pointfree)
 };
 
 
@@ -104,6 +123,10 @@ var save = function(x) {
   });
 };
 
-var ex8 = undefined;
+//WIP exercise 8, finish exercises 6, 7, & 8 with our answer and their answer
+
+var ex8 = function(user) {
+return (ex7(user) === user) ? save(user) : Left.of(user)
+};
 
 module.exports = {ex1: ex1, ex2: ex2, ex3: ex3, ex4: ex4, ex5: ex5, ex6: ex6, ex7: ex7, ex8: ex8};
