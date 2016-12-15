@@ -98,6 +98,7 @@ var checkActive = function(user) {
  return user.active ? Right.of(user) : Left.of('Your account is not active')
 };
 
+//OUR ANSWER (THEIR ANSWER ALSO)
 var ex6 = _.compose( _.map(showWelcome), checkActive )
 
 
@@ -106,11 +107,10 @@ var ex6 = _.compose( _.map(showWelcome), checkActive )
 // ==========
 // Write a validation function that checks for a length > 3. It should return Right(x) if it is greater than 3 and Left("You need > 3") otherwise
 
+//OUR ANSWER (THEIR ANSWER ALSO)
 var ex7 = function(x) {
   return ( x.length > 3) ? Right.of(x) : Left.of("You need > 3"); // <--- write me. (don't be pointfree)
 };
-
-
 
 // Exercise 8
 // ==========
@@ -123,10 +123,14 @@ var save = function(x) {
   });
 };
 
-//WIP exercise 8, finish exercises 6, 7, & 8 with our answer and their answer
-
-var ex8 = function(user) {
-return (ex7(user) === user) ? save(user) : Left.of(user)
+//OUR ANSWER, USING OUR OWN LOGIC (TEST CHANGED TO REFLECT USERS CHOICE)
+var compare = function(user) {
+return (user.constructor.name === 'Right') ? 'save' : 'Not valid'
 };
+
+var ex8 = _.compose( compare, ex7 )
+
+//THEIR ANSWER
+// var ex8 = _.compose(either(IO.of, save), ex7)
 
 module.exports = {ex1: ex1, ex2: ex2, ex3: ex3, ex4: ex4, ex5: ex5, ex6: ex6, ex7: ex7, ex8: ex8};
