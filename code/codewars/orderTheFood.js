@@ -12,22 +12,70 @@ var list1 = [
 
 
 //First answer
-const getOrder = person => person.meal
+// const getOrder = person => person.meal
+
+// const getAllOrders = list => list.map(getOrder)
+
+// const orderFood = list1 => {
+//   return getAllOrders(list1).reduce( (orderTallyObject, order ) => {
+//     if (order in orderTallyObject ) {
+//       orderTallyObject[order]++
+//     }
+//     else {
+//       orderTallyObject[order] = 1
+//     }
+//     return orderTallyObject
+//   }, {})
+// }
+
+//Second answer
+
+
+//Curry is not our code; credit: http://blog.carbonfive.com/2015/01/14/gettin-freaky-functional-wcurried-javascript/
+function curry(fx) {
+  var arity = fx.length;
+
+  return function f1() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    if (args.length >= arity) {
+      return fx.apply(null, args);
+    }
+    else {
+      return function f2() {
+        var args2 = Array.prototype.slice.call(arguments, 0);
+        return f1.apply(null, args.concat(args2));
+      }
+    }
+  };
+}
+
+const prop = curry( function( property, object ) {
+  return object[property]
+})
+
+const getOrder = prop('meal')
 
 const getAllOrders = list => list.map(getOrder)
 
 const orderFood = list1 => {
   return getAllOrders(list1).reduce( (orderTallyObject, order ) => {
-    if (order in orderTallyObject ) {
-      orderTallyObject[order]++
-    }
-    else {
-      orderTallyObject[order] = 1
-    }
+    // OURS
+    // if (order in orderTallyObject ) {
+    //   orderTallyObject[order]++
+    // }
+    // else {
+    //   orderTallyObject[order] = 1
+    // }
+    // PUNIT'S
+    orderTallyObject[order] = (orderTallyObject[order] || 0) + 1
     return orderTallyObject
   }, {})
 }
 
-//Second answer
+//Someone else's cool example:
 
-const curry = function n(r){return 0===arguments.length||w(r)?n:t.apply(this,arguments)}
+const orderFood = a => {
+  return a.reduce( (acc,user) => {
+    return ( acc[user.meal] = ( acc[user.meal] || 0 ) + 1, acc )
+  }, {} )
+} ;
