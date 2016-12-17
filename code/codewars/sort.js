@@ -37,17 +37,41 @@ const languageAndName = obj => {
   return {language: lang, firstName: firstN}
 }
 
-const sortByLanguageAndFirstName = list => {
-
-}
-
-let test = languageAndName(list1[0])
-console.log('test',test)
-
 const getAllLanguages = list => list.map(language)
 const getAllLanguagesAndNames = list => list.map(languageAndName)
 
-let test1 = getAllLanguagesAndNames(list1)
-console.log('test1',test1)
+// EVERYTHING ABOVE IS PROCESS, AND NOT USED
 
-//Lunch! Model: http://stackoverflow.com/questions/11379361/how-to-sort-an-array-of-objects-with-multiple-field-values-in-javascript
+
+// OUR ANSWER (kinda)
+function dynamicSort(property) {
+    return function (obj1,obj2) {
+        return obj1[property] > obj2[property] ? 1
+            : obj1[property] < obj2[property] ? -1 : 0;
+    }
+}
+
+function dynamicSortMultiple() {
+
+    var props = arguments
+    return function (obj1, obj2) {
+        var i = 0, result = 0, numberOfProperties = props.length;
+        /* try getting a different result from 0 (equal)
+         * as long as we have extra properties to compare
+         */
+        while(result === 0 && i < numberOfProperties) {
+            result = dynamicSort(props[i])(obj1, obj2);
+            i++;
+        }
+        return result;
+    }
+}
+
+let test = list1.sort(dynamicSortMultiple('language', 'firstName'))
+console.log('test',test)
+
+//ONE OF THEIR ANSWERS:
+
+function sortByLanguage(list) {
+  return list.sort((a,b)=> (a.language.toLowerCase() == b.language.toLowerCase()) ? a.firstName.localeCompare(b.firstName) : a.language.localeCompare(b.language));
+}
