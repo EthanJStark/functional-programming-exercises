@@ -21,36 +21,22 @@ const addTwoThings = (x, y) => x + y + 1000
 
 // var testprops [ [ 1, 2, 3, 4, 5 ], [Function: addall5], [Function: add1] ]
 
-//SavePoint
-//
-// const compose = (...args) => (...args2) => {
-//   const props = [...args]
-//   const props2 = [...args2]
-//   props.push(props2)
-//   props.reverse()
-//   console.log('props',props)
-//   return props.reduce( ( a, b ) => {
-//     console.log('a',a)
-//     console.log('b',b)
-//
-//     return b(a[0])} )
-// }
-
+//THIRD ANSWER, PASSING ALL TESTS
 const compose = (...args) => (...args2) => {
   const props = [...args]
   const props2 = [...args2]
+  if(props.length === 0) {return (x => x).apply(this, props2)}
+  console.log('props', props)
+  props.push(props2)
   props.reverse()
-  let tester = addTwoThings(props2)
-  console.log('tester',tester)
-  console.log('props',props)
   return props.reduce( ( a, b ) => {
-    console.log('a',a)
-    console.log('b',b)
-
-    return b(a[0])} )
+    return (typeof(a) !== 'number') ? b.apply(this, a): b(a)
+  })
 }
 
 
 let test = compose( double, addTwoThings )(3, 2)
+let test2 = compose()(5)
 
-console.log('test',typeof(test))
+console.log('test', test)
+console.log('test2', test2)
