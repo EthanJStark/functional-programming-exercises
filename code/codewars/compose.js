@@ -34,6 +34,12 @@ const compose = (...args) => (...args2) => {
   })
 }
 
+//CODEWARS ANSWER: 
+function compose(f, g) {
+  return function() {
+    return f(g.apply(this, arguments));
+  };
+}
 
 let test = compose( double, addTwoThings )(3, 2)
 let test2 = compose()(5)
