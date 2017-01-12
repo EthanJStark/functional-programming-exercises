@@ -1,5 +1,5 @@
 ## Description
-
+tsest
 This goal provides an introduction to functional programming concepts using JavaScript and gives you the opportunity to practice these concepts with a series of reinforcement exercises from the [Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/content/) and a handful of automated challenges on [CodeWars](https://www.codewars.com/kata/latest/my-languages?tags=Functional+Programming).
 
 ## Context
